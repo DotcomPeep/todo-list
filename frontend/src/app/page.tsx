@@ -26,7 +26,7 @@ import { TaskDTO } from '@/types/TaskDTO'
 import { mockTasks } from '@/mocks/mockTask'
 
 const formDataSchema = z.object({
-  title: z.string().min(3),
+  title: z.string().min(3, 'O título deve ter no miníno 3 caracteres!'),
   description: z.string(),
 })
 
@@ -39,7 +39,7 @@ export default function Home() {
   const [isEditing, setIsEditing] = useState<boolean>(false)
   const [isCreating, setIsCreating] = useState<boolean>(false)
 
-  const { handleSubmit, register, reset } = useForm<FormDataProps>({
+  const { handleSubmit, register, reset, formState:{ errors } } = useForm<FormDataProps>({
     resolver: zodResolver(formDataSchema),
   })
 
@@ -127,6 +127,9 @@ export default function Home() {
               placeholder="Digite o título da sua tarefa"
               {...register('title')}
             />
+
+            {errors?.title?.message &&
+            (<span className='text-red-500'>{errors?.title?.message}</span>)}
 
             <input
               className="border rounded p-2 text-gray-900"
@@ -216,6 +219,9 @@ export default function Home() {
               placeholder="Altere o título da sua tarefa"
               {...register('title')}
             />
+
+            {errors?.title?.message &&
+            (<span className='text-red-500'>{errors?.title?.message}</span>)}
 
             <input
               className="border rounded p-2 text-gray-900"
