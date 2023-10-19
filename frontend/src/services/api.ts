@@ -1,5 +1,5 @@
-import axios from "axios";
+import axios from 'axios'
 
-axios.create({
-    baseURL:"http://10.30.30.21:5000"
+export const api = axios.create({
+  baseURL: 'http://192.168.15.186:8080/api/tasks',
 })
