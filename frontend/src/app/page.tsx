@@ -47,6 +47,8 @@ export default function Home() {
     try {
       await createTask(data.title, data.description)
       await getAllTasks()
+      setIsCreating(false)
+      reset()
     } catch (error) {
       console.error(error)
       throw error
@@ -71,6 +73,8 @@ export default function Home() {
       if (selectedTaskId) {
         await updateTaskById(selectedTaskId, data.title, data.description)
         await getAllTasks()
+        setIsEditing(false)
+        reset()
       }
     } catch (error) {
       console.error(error)
