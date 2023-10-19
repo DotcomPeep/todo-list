@@ -1,6 +1,10 @@
+// Services
 import { api } from '@/services/api'
 
-export async function getTasks() {
+// Types
+import { TaskDTO } from '@/types/TaskDTO'
+
+export async function getTasks(): Promise<TaskDTO[]> {
   try {
     const { data } = await api.get('/')
     return data
@@ -10,7 +14,7 @@ export async function getTasks() {
   }
 }
 
-export async function getTaskById(id: number) {
+export async function getTaskById(id: number): Promise<TaskDTO> {
   try {
     const { data } = await api.get(`/${id}`)
     return data
