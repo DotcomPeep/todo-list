@@ -21,6 +21,8 @@ import { Pencil, Trash } from 'phosphor-react'
 
 // Types
 import { TaskDTO } from '@/types/TaskDTO'
+
+// Mocks
 import { mockTasks } from '@/mocks/mockTask'
 
 const formDataSchema = z.object({
@@ -41,6 +43,16 @@ export default function Home() {
     resolver: zodResolver(formDataSchema),
   })
 
+  async function handleCreateTask(data: FormDataProps) {
+    try {
+      await createTask(data.title, data.description)
+      await getAllTasks()
+    } catch (error) {
+      console.error(error)
+      throw error
+    }
+  }
+
   async function getAllTasks() {
     try {
       setIsLoading(true)
@@ -54,29 +66,15 @@ export default function Home() {
     }
   }
 
-  async function handleCreateTask(dataForm: FormDataProps) {
+  async function handleEditTask(data: FormDataProps) {
     try {
-      await createTask(dataForm.title, dataForm.description)
-      await getAllTasks()
+      if (selectedTaskId) {
+        await updateTaskById(selectedTaskId, data.title, data.description)
+        await getAllTasks()
+      }
     } catch (error) {
       console.error(error)
       throw error
-    }
-  }
-
-  async function handleEditTask(dataForm: FormDataProps) {
-    if (selectedTaskId) {
-      try {
-        await updateTaskById(
-          selectedTaskId,
-          dataForm.title,
-          dataForm.description,
-        )
-        await getAllTasks()
-      } catch (error) {
-        console.error(error)
-        throw error
-      }
     }
   }
 
